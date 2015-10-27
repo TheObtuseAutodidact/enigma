@@ -21,16 +21,16 @@ class EncrytionHashesTest < Minitest::Test
     end
 
     def test_it_creates_char_array_with_rotations_by_key
-      hashes = EncryptionHashes.new
-      assert_equal 'b', hashes.rot_array([1])[0]['a']
+      hashes = EncryptionHashes.new([1])
+      assert_equal 'b', hashes.encryptors[0]['a']
     end
 
     def test_it_creates_char_arrays_with_rotaion_keys
-      hashes = EncryptionHashes.new
-      assert_equal 'c', hashes.rot_array([1])[0]['b']
-      assert_equal 'd', hashes.rot_array([1, 2])[1]['b']
-      assert_equal 'e', hashes.rot_array([1, 2, 3])[2]['b']
-      assert_equal 'f', hashes.rot_array([1, 2, 3, 4])[3]['b']
+      hashes = EncryptionHashes.new([1, 2, 3, 4])
+      assert_equal 'c', hashes.encryptors[0]['b']
+      assert_equal 'd', hashes.encryptors[1]['b']
+      assert_equal 'e', hashes.encryptors[2]['b']
+      assert_equal 'f', hashes.encryptors[3]['b']
     end
 
 end

@@ -1,9 +1,9 @@
-require './key1.rb'
+require_relative './key1'
 
 class OffsetsCalc
   attr_reader :key, :date
 
-  def initialize(key=Key.new, date=Time.now.strftime("%m%d%y"))
+  def initialize(key=Key.new.key, date=Time.now.strftime("%m%d%y"))
     @key = key
     @date = date.to_i
   end
@@ -36,3 +36,6 @@ class OffsetsCalc
     return offsets
   end
 end
+
+# oc = OffsetsCalc.new(12345, "011115")  # => #<OffsetsCalc:0x007fc04c879fb0 @key=12345, @date=11115>
+# oc.offsets                             # => [15, 25, 36, 50]

@@ -11,6 +11,8 @@ b = crypto_key[1..2].join("").to_i
 c = crypto_key[2..3].join("").to_i
 d = crypto_key[3..4].join("").to_i
 
+#
+#  not offset specs 
 today = Time.now.strftime("%m%d%y").to_s.split("")
 e = today[0..1].reduce{ |first, second| first.to_i + second.to_i }
 f = today[1..2].reduce{ |first, second| first.to_i + second.to_i }

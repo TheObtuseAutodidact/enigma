@@ -1,30 +1,30 @@
-require "./key.rb"
-require "minitest"
-require "minitest/autorun"
-
-class KeyTest < Minitest::Test
-
-  def test_it_exists
-    assert Key
-  end
-
-  def test_new_object_is_a_class_of_key
-    assert Key.new.is_a?(Key)
-  end
-
-  def test_new_key_array_contains_four_items
-    key = Key.new
-    assert_equal 4, key.generate_key.length
-  end
-
-  def test_key_elements_are_string_items
-    key = Key.new
-
-    assert key.generate_key[0].is_a?(String)
-    assert key.generate_key[1].is_a?(String)
-    assert key.generate_key[2].is_a?(String)
-    assert key.generate_key[3].is_a?(String)
-  end
+# require "./key.rb"
+# require "minitest"
+# require "minitest/autorun"
+#
+# class KeyTest < Minitest::Test
+#
+#   def test_it_exists
+#     assert Key
+#   end
+#
+#   def test_new_object_is_a_class_of_key
+#     assert Key.new.is_a?(Key)
+#   end
+#
+#   def test_new_key_array_contains_four_items
+#     key = Key.new
+#     assert_equal 4, key.generate_key.length
+#   end
+#
+#   def test_key_elements_are_string_items
+#     key = Key.new
+#
+#     assert key.generate_key[0].is_a?(String)
+#     assert key.generate_key[1].is_a?(String)
+#     assert key.generate_key[2].is_a?(String)
+#     assert key.generate_key[3].is_a?(String)
+#   end
 
   # def test_it_has_a_char_set_of_39_chars
   #   key = Key.new
@@ -54,4 +54,4 @@ class KeyTest < Minitest::Test
 
 
 
-end
+# end

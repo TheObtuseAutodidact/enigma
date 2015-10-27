@@ -1,6 +1,6 @@
 require 'minitest'
 require 'minitest/autorun'
-require './offsets'
+require './offsets_calc'
 require './key1'
 
 class OffsetsTest < Minitest::Test
@@ -14,18 +14,21 @@ class OffsetsTest < Minitest::Test
   end
 
   def test_it_takes_key_as_input
-    key = 12345 # stub
-    assert_equal 12345, OffsetsCalc.new(12345).key
+    oc = OffsetsCalc.new(12345)
+    expected = 12345
+    assert_equal expected, oc.key
   end
 
   def test_it_has_a_date_attribute
-    oc = OffsetsCalc.new(12345, "010115")
-    assert_equal 10115, oc.date
+    oc = OffsetsCalc.new(12345, "110115")
+    expected = 110115
+    assert_equal expected, oc.date
   end
 
   def test_it_creates_offsets_from_key_and_date
     oc = OffsetsCalc.new(12345, "010115")
-    assert_equal [15, 25, 36, 50], oc.offsets
+    expected = [15, 25, 36, 50]
+    assert_equal expected, oc.offsets
   end
 
 end
