@@ -33,6 +33,7 @@ class EncryptMessageTest < Minitest::Test
     em1 = EncryptMessage.new("abc", hashes)
     em2 = EncryptMessage.new("aaaaaaaa", hashes)
     assert_equal "bc", em.encrypt
+    assert_equal "bdf", em1.encrypt
     assert_equal "bcdebcde", em2.encrypt
   end
 

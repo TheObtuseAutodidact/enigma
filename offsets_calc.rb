@@ -1,12 +1,12 @@
-require_relative './key1'
+require_relative './key1'  # => true
 
 class OffsetsCalc
-  attr_reader :key, :date
+  attr_reader :key, :date  # => nil
 
-  def initialize(key=Key.new.key, date=Time.now.strftime("%m%d%y"))
+  def initialize(key, date)
     @key = key
-    @date = date.to_i
-  end
+    @date = date.strftime("%m%d%Y").to_i
+  end                                     # => :initialize
 
   def parse_key
     pre_offsets = []
@@ -20,13 +20,13 @@ class OffsetsCalc
     d = key[3..4].join("").to_i
     pre_offsets << d
     return pre_offsets
-  end
+  end                            # => :parse_key
 
   def parse_offsets
     date = (@date ** 2).to_s.split("")[-4..-1]
     date = date.map { |num| num.to_i }
     return date
-  end
+  end                                           # => :parse_offsets
 
   def offsets
     offsets = parse_key.zip(parse_offsets)
@@ -34,8 +34,8 @@ class OffsetsCalc
       offset.reduce(:+)
     end
     return offsets
-  end
-end
+  end                                       # => :offsets
+end                                         # => :offsets
 
 # oc = OffsetsCalc.new(12345, "011115")  # => #<OffsetsCalc:0x007fc04c879fb0 @key=12345, @date=11115>
 # oc.offsets                             # => [15, 25, 36, 50]

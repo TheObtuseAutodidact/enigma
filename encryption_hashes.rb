@@ -4,7 +4,7 @@ class EncryptionHashes
   attr_reader :char_set, :offsets
 
 
-  def initialize(offsets =(OffsetsCalc.new(key=Key.new, date=Time.now.strftime("%m%d%y")).offsets))
+  def initialize(offsets)
     @char_set = ("a".."z").to_a + ("0".."9").to_a + [" ", ".", ","]
     @offsets = offsets
   end
@@ -15,12 +15,7 @@ class EncryptionHashes
       encrypt_arr = @char_set.rotate(offset)
       encryptors << Hash[@char_set.zip(encrypt_arr)]
     end
-    puts encryptors  ################################
     return encryptors
   end
 
 end
-
-
-# eh = EncryptionHashes.new([1,2,3,4])
-# eh.encryptors
