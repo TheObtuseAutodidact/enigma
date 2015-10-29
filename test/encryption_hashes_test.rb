@@ -1,5 +1,5 @@
-require './key1.rb'
-require './encryption_hashes.rb'
+require './lib/key1.rb'
+require './lib/encryption_hashes.rb'
 require 'minitest'
 require 'minitest/autorun'
 

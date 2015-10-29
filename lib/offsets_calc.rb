@@ -37,8 +37,3 @@ class OffsetsCalc
     return offsets
   end
 end
-
- oc = OffsetsCalc.new(12345)
- oc.offsets
- oc2 = OffsetsCalc.new(12345, 111115)
- oc2.offsets

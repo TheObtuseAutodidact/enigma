@@ -1,7 +1,7 @@
 require 'minitest'
 require 'minitest/autorun'
-require_relative './offsets_calc.rb'
-require_relative './enigma'
+require './lib/offsets_calc.rb'
+require './lib/enigma'
 
 class EnigmaTest < Minitest::Test
 
@@ -21,7 +21,7 @@ class EnigmaTest < Minitest::Test
   end
 
   def test_it_encrypts_a_single_character
-    OffsetsCalc.new(11111, 110115).offsets.inspect # => "[14, 13, 13, 16]"
+    OffsetsCalc.new(11111, 110115).offsets.inspect
     e = Enigma.new
     assert_equal 'o', e.encrypt("a", 11111, 110115)
   end
@@ -43,23 +43,17 @@ class EnigmaTest < Minitest::Test
     assert_equal "a longer string", e.decrypt(x, 12345, 101015)
   end
 
-  # def test_crack_pulls_the_last_seven_chars_of_a_message
-  #   e = Enigma.new
-  #   e.crack("a longer string ending with ..end..")
-  #   x = e.stringkey("a longer string ending with ..end..")
+  def test_it_craks_a_single_encrypted_char
+    e = Enigma.new
+    x = e.encrypt("a..end..", 12345, 101015)
+    assert_equal "a..end..", e.crack(x)
+  end
 
-
-
+  def test_it_cracks_a_longer_string
+    e = Enigma.new
+    x = e.encrypt("this is a longer string for the testing..end..", 12345, 101015)
+    assert_equal "this is a longer string for the testing..end..", e.crack(x)
+  end
 
 
 end
-
-# >> Run options: --seed 8237
-# >>
-# >> # Running:
-# >>
-# >> ....
-# >>
-# >> Finished in 0.002508s, 1594.8963 runs/s, 1594.8963 assertions/s.
-# >>
-# >> 4 runs, 4 assertions, 0 failures, 0 errors, 0 skips

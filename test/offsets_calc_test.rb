@@ -1,7 +1,7 @@
 require 'minitest'
 require 'minitest/autorun'
-require './offsets_calc'
-require './key1'
+require './lib/offsets_calc'
+require './lib/key1'
 
 class OffsetsTest < Minitest::Test
 

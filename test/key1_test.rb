@@ -1,6 +1,6 @@
 require 'minitest'
 require 'minitest/autorun'
-require './key1'
+require './lib/key1'
 
 class KeyTest < Minitest::Test
 
