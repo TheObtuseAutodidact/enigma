@@ -1,30 +1,49 @@
-require 'date'                          # => true
-require_relative "./key1"               # => true
-require_relative "./offsets_calc"       # => true
-require_relative "./encryption_hashes"  # => true
-require_relative "./encrypt_message"    # => true
+require 'date'
+require_relative "./key1"
+require_relative "./offsets_calc"
+require_relative "./encryption_hashes"
+require_relative "./encrypt_message"
+
 class Enigma
-  attr_reader :key                      # => nil
+  attr_reader :key
 
   def initialize
-    @key = Key.new.key                                             # => 89822
-    @date = Time.now.strftime("%m%d%y").to_i                       # => 102815
-    offsets = OffsetsCalc.new(@key, @date).offsets                 # => [93, 100, 84, 27]
-    @encryption_hashes = EncryptionHashes.new(offsets).encryptors  # => [{"a"=>"p", "b"=>"q", "c"=>"r", "d"=>"s", "e"=>"t", "f"=>"u", "g"=>"v", "h"=>"w", "i"=>"x", "j"=>"y", "k"=>"z", "l"=>"0", "m"=>"1", "n"=>"2", "o"=>"3", "p"=>"4", "q"=>"5", "r"=>"6", "s"=>"7", "t"=>"8", "u"=>"9", "v"=>" ", "w"=>".", "x"=>",", "y"=>"a", "z"=>"b", "0"=>"c", "1"=>"d", "2"=>"e", "3"=>"f", "4"=>"g", "5"=>"h", "6"=>"i", "7"=>"j", "8"=>"k", "9"=>"l", " "=>"m", "."=>"n", ","=>"o"}, {"a"=>"w", "b"=>"x", "c"=>"y", "d"=>"z", "e"=>"0", "f"=>"1", "g"=>"2", "h"=>"3", "i"=>"4", "j"=>"5", "k"=>"6", "l"=>"7", "m"=>"8", "n"=>"9", "o"=>" ", "p"=>".", "q"=>",", "r"=>"a", "s"=>"b", "t"=>"c", "u"=>"d", "v"=>"e", "w"=>"f", "x"=>"g", "y"=>"h", "z"=>"i", "0"=>"j", "1"=>"k", "2"=>"l", "3"=>"m", "4"=>"n", "5"=>"o", "6"=>"p", "7"=>"q", "8"=>"r", "9"=>"s", " "=>"t", "."=>"u", ","=>"v"}, {"a"=>"g", "b"=>"h", "c"=>"i", "d"=>"j", "e"=>"k", "f"=>"l", "g"=>"m", "h"=>"n", "i"=>"o", "j"=>"p", "k"=>"q", "l"=>"r", "m"=>"s", "n"=>"t",...
-  end                                                              # => :initialize
+    @key = Key.new.key
+    @date = Time.now.strftime("%m%d%y").to_i
+    offsets = OffsetsCalc.new(@key, @date).offsets
+    @encryption_hashes = EncryptionHashes.new(offsets).encryptors
+  end
 
   def encrypt(message, key=@key, date=@date)
     EncryptMessage.new(message, EncryptionHashes.new(OffsetsCalc.new(key, date).offsets).encryptors).encrypt
-  end                                                                                                         # => :encrypt
+  end
 
   def decrypt(message, key, date=@date)
       EncryptMessage.new(message, EncryptionHashes.new(OffsetsCalc.new(key, date).offsets).decryptors).encrypt
-  end                                                                                                           # => :decrypt
+  end
 
-end  # => :decrypt
+  def crack(message, date=nil)
+    char_set = ("a".."z").to_a + ("0".."9").to_a + [" ", ".", ","]
+    string_key = [37, 37, 4, 13, 3, 37, 37]
+    rotation_indicies = []
+    mod = message.length % 4
+    value_key = message[-7..-1].split("")
+    string_key.zip(value_key).each do |item|
+      rotation_indicies << char_set.rotate(item[0]).index(item[1])
+    end
+    rotation_indicies.pop(mod) if mod > 0
+    EncryptMessage.new(message, EncryptionHashes.new(rotation_indicies[-4..-1]).decryptors).encrypt
+  end
+end
 
 
- e = Enigma.new  # => #<Enigma:0x007f811a85c378 @key=89822, @date=102815, @encryption_hashes=[{"a"=>"p", "b"=>"q", "c"=>"r", "d"=>"s", "e"=>"t", "f"=>"u", "g"=>"v", "h"=>"w", "i"=>"x", "j"=>"y", "k"=>"z", "l"=>"0", "m"=>"1", "n"=>"2", "o"=>"3", "p"=>"4", "q"=>"5", "r"=>"6", "s"=>"7", "t"=>"8", "u"=>"9", "v"=>" ", "w"=>".", "x"=>",", "y"=>"a", "z"=>"b", "0"=>"c", "1"=>"d", "2"=>"e", "3"=>"f", "4"=>"g", "5"=>"h", "6"=>"i", "7"=>"j", "8"=>"k", "9"=>"l", " "=>"m", "."=>"n", ","=>"o"}, {"a"=>"w", "b"=>"x", "c"=>"y", "d"=>"z", "e"=>"0", "f"=>"1", "g"=>"2", "h"=>"3", "i"=>"4", "j"=>"5", "k"=>"6", "l"=>"7", "m"=>"8", "n"=>"9", "o"=>" ", "p"=>".", "q"=>",", "r"=>"a", "s"=>"b", "t"=>"c", "u"=>"d", "v"=>"e", "w"=>"f", "x"=>"g", "y"=>"h", "z"=>"i", "0"=>"j", "1"=>"k", "2"=>"l", "3"=>"m", "4"=>"n", "5"=>"o", "6"=>"p", "7"=>"q", "8"=>"r", "9"=>"s", " "=>"t", "."=>"u", ","=>"v"}, {"a"=>"g", "b"=>"h", "c"=>"i", "d"=>"j", "e"=>"k", "f"=>"l", "g"=>"m", "h"=>"n", "i"=>"o", "j"=>"p", "k"=>"q", "l"=>"r"...
+e = Enigma.new                           # => #<Enigma:0x007fc7b2830730 @key=99836, @date=102815, @encryption_hashes=[{"a"=>"z", "b"=>"0", "c"=>"1", "d"=>"2", "e"=>"3", "f"=>"4", "g"=>"5", "h"=>"6", "i"=>"7", "j"=>"8", "k"=>"9", "l"=>" ", "m"=>".", "n"=>",", "o"=>"a", "p"=>"b", "q"=>"c", "r"=>"d", "s"=>"e", "t"=>"f", "u"=>"g", "v"=>"h", "w"=>"i", "x"=>"j", "y"=>"k", "z"=>"l", "0"=>"m", "1"=>"n", "2"=>"o", "3"=>"p", "4"=>"q", "5"=>"r", "6"=>"s", "7"=>"t", "8"=>"u", "9"=>"v", " "=>"w", "."=>"x", ","=>"y"}, {"a"=>"w", "b"=>"x", "c"=>"y", "d"=>"z", "e"=>"0", "f"=>"1", "g"=>"2", "h"=>"3", "i"=>"4", "j"=>"5", "k"=>"6", "l"=>"7", "m"=>"8", "n"=>"9", "o"=>" ", "p"=>".", "q"=>",", "r"=>"a", "s"=>"b", "t"=>"c", "u"=>"d", "v"=>"e", "w"=>"f", "x"=>"g", "y"=>"h", "z"=>"i", "0"=>"j", "1"=>"k", "2"=>"l", "3"=>"m", "4"=>"n", "5"=>"o", "6"=>"p", "7"=>"q", "8"=>"r", "9"=>"s", " "=>"t", "."=>"u", ","=>"v"}, {"a"=>"h", "b"=>"i", "c"=>"j", "d"=>"k", "e"=>"l", "f"=>"m", "g"=>"n", "h"=>"o", "i"=>"p", "j"=...
+x = e.encrypt("secret message ..end..")  # => "e0jt3ceo3bzc50eax0ufxu"
+puts e.crack(x)                          # => nil
+
+f = Enigma.new
+y = f.encrypt("a longer message to test the crack method. we really want to see if it works..end..")
+puts f.crack(y)
 # e.encrypt("this string")                          # => "gwkfx7ve82i"
 # #e.encrypt("aaaaaaaaaaaa")                         # => "p5vwp5vwp5vw"
 # e.decrypt(",m76qxf51s5", 93649, 102815)           # => "tngr yrqite"

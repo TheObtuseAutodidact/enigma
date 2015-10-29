@@ -43,6 +43,10 @@ class EnigmaTest < Minitest::Test
     assert_equal "a longer string", e.decrypt(x, 12345, 101015)
   end
 
+  # def test_crack_pulls_the_last_seven_chars_of_a_message
+  #   e = Enigma.new
+  #   e.crack("a longer string ending with ..end..")
+  #   x = e.stringkey("a longer string ending with ..end..")
 
 
 
