@@ -20,13 +20,13 @@ class OffsetsTest < Minitest::Test
   end
 
   def test_it_has_a_date_attribute
-    oc = OffsetsCalc.new(12345, "110115")
+    oc = OffsetsCalc.new(12345, 110115)
     expected = 110115
     assert_equal expected, oc.date
   end
 
   def test_it_creates_offsets_from_key_and_date
-    oc = OffsetsCalc.new(12345, "010115")
+    oc = OffsetsCalc.new(12345, 110115)
     expected = [15, 25, 36, 50]
     assert_equal expected, oc.offsets
   end

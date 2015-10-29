@@ -1,22 +1,22 @@
-require './key.rb'
+require './key1.rb'
 require './encryption_hashes.rb'
 require 'minitest'
 require 'minitest/autorun'
 
-class EncrytionHashesTest < Minitest::Test
+class EncryptionHashesTest < Minitest::Test
 
   def test_it_exists
     assert EncryptionHashes
   end
 
   def test_it_is_an_instance_of_this_class
-    assert EncryptionHashes.new.is_a?(EncryptionHashes)
-    hashes = EncryptionHashes.new
+    assert EncryptionHashes.new([1,2,3,4]).is_a?(EncryptionHashes)
+    hashes = EncryptionHashes.new([1,2,3,4])
     assert hashes.is_a?(EncryptionHashes)
     end
 
     def test_it_initialize_with_char_set
-      hashes = EncryptionHashes.new
+      hashes = EncryptionHashes.new([1,2,3,4])
       assert_equal 39, hashes.char_set.length
     end
 

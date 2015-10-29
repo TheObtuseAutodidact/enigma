@@ -1,4 +1,4 @@
-require './key.rb'
+require './key1.rb'
 require './encryption_hashes'
 require './encrypt_message'
 require 'minitest'
