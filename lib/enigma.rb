@@ -15,11 +15,11 @@ class Enigma
   end
 
   def encrypt(message, key=@key, date=@date)
-    EncryptMessage.new(message, EncryptionHashes.new(OffsetsCalc.new(key, date).offsets).encryptors).encrypt
+    EncryptMessage.new(message.downcase, EncryptionHashes.new(OffsetsCalc.new(key, date).offsets).encryptors).encrypt
   end
 
   def decrypt(message, key, date=@date)
-      EncryptMessage.new(message, EncryptionHashes.new(OffsetsCalc.new(key, date).offsets).decryptors).encrypt
+      EncryptMessage.new(message.downcase, EncryptionHashes.new(OffsetsCalc.new(key, date).offsets).decryptors).encrypt
   end
 
   def crack(message, date=nil)
@@ -32,6 +32,6 @@ class Enigma
       rotation_indicies << char_set.rotate(item[0]).index(item[1])
     end
     rotation_indicies.pop(mod) if mod > 0
-    EncryptMessage.new(message, EncryptionHashes.new(rotation_indicies[-4..-1]).decryptors).encrypt
+    EncryptMessage.new(message.downcase, EncryptionHashes.new(rotation_indicies[-4..-1]).decryptors).encrypt
   end
 end

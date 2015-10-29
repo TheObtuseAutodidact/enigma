@@ -5,7 +5,7 @@ class EncryptMessage
   attr_accessor :message
 
   def initialize(message, encryption_hashes)
-    @message = message
+    @message = message.downcase
     @encryptors = encryption_hashes
   end
 
